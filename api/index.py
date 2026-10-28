@@ -91,6 +91,8 @@ async def handle_message(message: dict[str, Any]):
     uid = int(user["id"])
     chat_id = int(message.get("chat", {}).get("id", uid))
     text = (message.get("text") or "").strip()
+	
+
     if text.startswith("/start"):
         parts = text.split(maxsplit=1)
         payload = parts[1] if len(parts) > 1 else ""
@@ -105,8 +107,6 @@ async def handle_message(message: dict[str, Any]):
             await send(chat_id, f"Welcome to LEGEND referrals.\nHuman check: what is {a} + {b}? Reply with the number.")
         except Exception:
             log.exception("start failed")
-            await send(chat_id, "Registration is temporarily unavailable. Please try again.")
-        return
     if text.startswith("/link"):
         p = participant(uid)
         if not p or not p.get("human_verified"):
